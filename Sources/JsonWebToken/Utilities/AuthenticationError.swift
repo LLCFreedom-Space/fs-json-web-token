@@ -23,10 +23,9 @@
 //
 
 import Vapor
-import ErrorMiddleware
 
 /// A generic `AuthenticationError` data.
-public enum AuthenticationError: AppError {
+public enum AuthenticationError: AbortError, DebuggableError {
     /// The `AuthorizationError` not found bearer token
     case missingAuthorizationHeader
 

@@ -1,5 +1,4 @@
 {
-  "originHash" : "70988b20389853f4640864a0261eb1d6480444061a70bbf85be7b0450b240cd5",
   "pins" : [
     {
       "identity" : "async-http-client",
@@ -26,15 +25,6 @@
       "state" : {
         "revision" : "9f7932f22ab6f64aafadc14491e694179b7d0f6f",
         "version" : "4.14.3"
-      }
-    },
-    {
-      "identity" : "fs-error-middleware",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/LLCFreedom-Space/fs-error-middleware.git",
-      "state" : {
-        "revision" : "0a98a7923998ced3db9f831b2d2abf128f283e6c",
-        "version" : "1.1.0"
       }
     },
     {
@@ -218,5 +208,5 @@
       }
     }
   ],
-  "version" : 3
+  "version" : 2
 }

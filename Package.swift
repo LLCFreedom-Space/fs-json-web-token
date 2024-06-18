@@ -17,8 +17,6 @@ let package = Package(
     dependencies: [
         // 💧 A server-side Swift web framework.
         .package(url: "https://github.com/vapor/vapor.git", from: "4.0.0"),
-        //
-        .package(url: "https://github.com/LLCFreedom-Space/fs-error-middleware.git", from: "1.0.0"),
         // 🔏 Vapor JWT provider
         .package(url: "https://github.com/vapor/jwt.git", from: "4.0.0"),
     ],
@@ -28,12 +26,20 @@ let package = Package(
         .target(
             name: "JsonWebToken", dependencies: [
                 .product(name: "Vapor", package: "vapor"),
-                .product(name: "FSErrorMiddleware", package: "fs-error-middleware"),
                 .product(name: "JWT", package: "jwt")
             ]
         ),
         .testTarget(
             name: "JsonWebTokenTests",
-            dependencies: ["JsonWebToken"]),
+            dependencies: [
+                .target(
+                    name: "JsonWebToken"
+                ),
+                .product(
+                    name: "XCTVapor",
+                    package: "vapor"
+                ),
+            ]
+        )
     ]
 )

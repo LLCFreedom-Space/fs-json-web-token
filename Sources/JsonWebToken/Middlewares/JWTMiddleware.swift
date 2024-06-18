@@ -36,30 +36,30 @@ public struct JWTMiddleware: AsyncMiddleware {
     /// - Returns: An HTTP response from a server back to the client. An asynchronous `Response`.
     public func respond(to request: Request, chainingTo next: AsyncResponder) async throws -> Response {
         guard let token = request.headers.bearerAuthorization?.token.utf8 else {
-            request.logger.error("ERROR: No JWT in headers: \(request.headers)")
+            request.logger.error("No JWT in headers: \(request.headers)")
             throw AuthenticationError.missingAuthorizationHeader
         }
         do {
             request.payload = try request.jwt.verify(Array(token), as: AccessTokenPayload.self)
         } catch let JWTError.claimVerificationFailure(name: name, reason: reason) {
-            request.logger.error("ERROR: JWT Verification Failure: \(name), \(reason)")
+            request.logger.error("JWT Verification Failure: \(name), \(reason)")
             if name == "exp" {
-                request.logger.error("ERROR: JWT failure with - \(name) and \(reason)")
+                request.logger.error("JWT failure with - \(name) and \(reason)")
                 throw JWTError.claimVerificationFailure(name: name, reason: reason)
             } else {
-                request.logger.error("ERROR: JWT verification failure")
+                request.logger.error("JWT verification failure")
                 throw AuthenticationError.claimVerificationFailure
             }
         } catch {
-            request.logger.error("ERROR: JWT Middleware failure with - \(error)")
+            request.logger.error("JWT Middleware failure with - \(error)")
             throw error
         }
         guard request.payload.issuer == request.application.jwtClaimIssuer else {
-            request.logger.error("ERROR: Issuer in JWT incorrect")
+            request.logger.error("Issuer in JWT incorrect")
             throw AuthenticationError.missingAuthorizationHeader
         }
         guard request.payload.audience.value.contains(request.application.audienceName) else {
-            request.logger.error("ERROR: Audience not contains server name")
+            request.logger.error("Audience not contains server name")
             throw AuthenticationError.claimVerificationFailure
         }
         return try await next.respond(to: request)

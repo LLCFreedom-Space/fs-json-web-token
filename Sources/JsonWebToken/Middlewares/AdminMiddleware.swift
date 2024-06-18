@@ -36,7 +36,7 @@ public struct AdminMiddleware: AsyncMiddleware {
     /// - Returns: An HTTP response from a server back to the client. An asynchronous `Response`.
     public func respond(to request: Request, chainingTo next: AsyncResponder) async throws -> Response {
         guard request.payload.userType == .admin else {
-            request.logger.error("ERROR: User is not admin")
+            request.logger.error("User is not admin")
             throw AuthenticationError.missingAuthorizationHeader
         }
         return try await next.respond(to: request)
