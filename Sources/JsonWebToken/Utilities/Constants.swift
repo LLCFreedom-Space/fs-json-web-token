@@ -1,4 +1,4 @@
-// fs-json-web-token
+// FS Json Web Token
 // Copyright (C) 2024  FREEDOM SPACE, LLC
 
 //
@@ -32,13 +32,4 @@ public enum Constants {
     public static let defaultJwtClaimIssuer = "jwt-library"
 
     public static let accessTokenLifetime: Double = 60 * 60
-
-    public static let defaultPayload = AccessTokenPayload(
-        sub: UUID(),
-        userType: .standard,
-        expirationAt: Date().addingTimeInterval(TimeInterval(Constants.accessTokenLifetime)),
-        issuedAt: Date(),
-        issuer: Constants.defaultJwtClaimIssuer,
-        audience: [Constants.audienceName]
-    )
 }

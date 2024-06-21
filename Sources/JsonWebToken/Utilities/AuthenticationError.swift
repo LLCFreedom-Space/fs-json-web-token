@@ -1,4 +1,4 @@
-// fs-json-web-token
+// FS Json Web Token
 // Copyright (C) 2024  FREEDOM SPACE, LLC
 
 //

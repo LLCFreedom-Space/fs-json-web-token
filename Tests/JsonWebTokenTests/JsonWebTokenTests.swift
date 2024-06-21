@@ -1,7 +1,7 @@
 import XCTest
-@testable import fs_json_web_token
+@testable import JsonWebToken
 
-final class fs_json_web_tokenTests: XCTestCase {
+final class JsonWebTokenTests: XCTestCase {
     func testExample() throws {
         // XCTest Documentation
         // https://developer.apple.com/documentation/xctest

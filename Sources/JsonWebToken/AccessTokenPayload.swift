@@ -1,4 +1,4 @@
-// fs-json-web-token
+// FS Json Web Token
 // Copyright (C) 2024  FREEDOM SPACE, LLC
 
 //
@@ -85,31 +85,5 @@ public struct AccessTokenPayload: JWTPayload {
     public func verify(using signer: JWTSigner) throws {
         try self.expiration.verifyNotExpired()
         try self.audience.verifyIntendedAudience(includes: Constants.audienceName)
-    }
-}
-
-public extension AccessTokenPayload {
-    /// CodingKey enum for coding key
-    enum CodingKeys: String, CodingKey {
-        /// Case for subject
-        case subject = "sub"
-        /// Case for expiration
-        case expiration = "exp"
-        /// Case for issuedAt
-        case issuedAt = "iat"
-        /// Case for audience
-        case audience = "aud"
-        /// Case for issuer
-        case issuer = "iss"
-        /// Case for user type
-        case userType = "user_type"
-    }
-
-    /// UserType enum for type of user
-    enum UserType: String, Content, CaseIterable {
-        /// Standard user
-        case standard
-        /// Admin user for specific routes
-        case admin
     }
 }

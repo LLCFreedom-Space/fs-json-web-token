@@ -16,31 +16,36 @@
 //  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 //
-//  Request+Extensions.swift
-//  
+//  AccessTokenPayload+CodingKeys.swift
 //
-//  Created by Mykola Buhaiov on 16.06.2024.
+//
+//  Created by Mykola Buhaiov on 21.06.2024.
 //
 
-import JWT
 import Vapor
 
-extension Request {
-    /// Payload key from StorageKey
-    private struct PayloadKey: StorageKey {
-        /// Set up typealias for `AccessTokenPayload`
-        typealias Value = AccessTokenPayload
+public extension AccessTokenPayload {
+    /// CodingKey enum for coding key
+    enum CodingKeys: String, CodingKey {
+        /// Case for subject
+        case subject = "sub"
+        /// Case for expiration
+        case expiration = "exp"
+        /// Case for issuedAt
+        case issuedAt = "iat"
+        /// Case for audience
+        case audience = "aud"
+        /// Case for issuer
+        case issuer = "iss"
+        /// Case for user type
+        case userType = "user_type"
     }
 
-    /// Set up getter and setter for Payload key
-    public var payload: AccessTokenPayload {
-        get {
-            guard let payload = storage[PayloadKey.self] else {
-                self.logger.error("Access Token Payload not setup.")
-                fatalError("Access Token Payload not setup.")
-            }
-            return payload
-        }
-        set { storage[PayloadKey.self] = newValue }
+    /// UserType enum for type of user
+    enum UserType: String, Content, CaseIterable {
+        /// Standard user
+        case standard
+        /// Admin user for specific routes
+        case admin
     }
 }
