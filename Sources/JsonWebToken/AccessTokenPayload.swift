@@ -28,7 +28,8 @@ import Vapor
 /// Payload data for a refresh token
 /// A representation of the payload used in the access tokens
 /// for this service's authentication.
-public struct AccessTokenPayload: JWTPayload {
+public struct AccessTokenPayload {
+    public let serverName: String
     /// Unique identifier for this `User`
     public let subject: UUID
     /// UserType for checking admin routes.
@@ -52,6 +53,7 @@ public struct AccessTokenPayload: JWTPayload {
     ///   - issuer: Service JWT generator name
     ///   - audience:
     public init(
+        serverName: String,
         sub: UUID,
         userType: Self.UserType,
         expirationAt: Date = Date().addingTimeInterval(TimeInterval(Constants.accessTokenLifetime)),
@@ -59,6 +61,7 @@ public struct AccessTokenPayload: JWTPayload {
         issuer: String = Constants.defaultJwtClaimIssuer,
         audience: [String] = [Constants.audienceName]
     ) {
+        self.serverName = serverName
         var audienceClaimValue = audience
         if !audienceClaimValue.contains(Constants.audienceName) {
             audienceClaimValue.append(Constants.audienceName)
@@ -70,20 +73,14 @@ public struct AccessTokenPayload: JWTPayload {
         self.userType = userType
         self.subject = sub
     }
+}
 
-    /// Verification JWT payload
-    /// - Parameter signer: JWT token that need verification
-    /// - Throws: Whatever throws in the implementation.
-    public func verify(using signer: JWTSigner, include: String) throws {
-        try self.expiration.verifyNotExpired()
-        try self.audience.verifyIntendedAudience(includes: include)
-    }
-
+extension AccessTokenPayload: JWTPayload {
     /// Verification JWT payload
     /// - Parameter signer: JWT token that need verification
     /// - Throws: Whatever throws in the implementation.
     public func verify(using signer: JWTSigner) throws {
         try self.expiration.verifyNotExpired()
-        try self.audience.verifyIntendedAudience(includes: Constants.audienceName)
+        try self.audience.verifyIntendedAudience(includes: serverName)
     }
 }

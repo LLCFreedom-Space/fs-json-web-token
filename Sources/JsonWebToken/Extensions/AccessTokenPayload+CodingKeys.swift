@@ -27,6 +27,7 @@ import Vapor
 public extension AccessTokenPayload {
     /// CodingKey enum for coding key
     enum CodingKeys: String, CodingKey {
+        case serverName = "server_name"
         /// Case for subject
         case subject = "sub"
         /// Case for expiration
